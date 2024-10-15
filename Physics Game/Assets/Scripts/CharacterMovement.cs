@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class CharacterController : MonoBehaviour
+
+public class CharacterMovement : MonoBehaviour
 {
 
     Rigidbody rb;
     public float speed = 0.5f;
+
+    public int score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +39,22 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             rb.AddForce(Vector3.right * speed);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            score++;
         }
     }
 }
